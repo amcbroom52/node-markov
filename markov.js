@@ -51,7 +51,6 @@ class MarkovMachine {
    *  until it hits a null choice. */
 
   getText() {
-
     const words = [];
 
     let currentWord = this.words[0];
