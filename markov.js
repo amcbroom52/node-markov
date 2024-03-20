@@ -1,6 +1,8 @@
 /** Textual markov chain generator. */
 
 
+let { sample } = require('lodash');
+
 class MarkovMachine {
 
   /** Build markov machine; read in text.*/
@@ -10,6 +12,7 @@ class MarkovMachine {
     // include things like "The", "cat", "cat.".
     this.words = text.split(/[ \r\n]+/);
     this.chains = this.getChains();
+    this.random = this.getText();
   }
 
   /** Get markov chain: returns object of Markov chains.
@@ -48,14 +51,19 @@ class MarkovMachine {
    *  until it hits a null choice. */
 
   getText() {
-    // TODO: implement this!
 
-    // - start at the first word in the input text
-    // - find a random word from the following-words of that
-    // - repeat until reaching the terminal null
+    const words = [];
+
+    let currentWord = this.words[0];
+
+    while (currentWord !== null) {
+      words.push(currentWord);
+      currentWord = sample(this.chains[currentWord]);
+    }
+    return words.join(' ');
   }
 }
 
 module.exports = {
   MarkovMachine,
-}
+};
